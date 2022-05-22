@@ -33,7 +33,7 @@ class Storage_Init {
 		const mongo_db_password: string = encodeURIComponent(
 			config.MONGO_ATLAS_CIRCULO_SERVICE.dbPassword,
 		);
-		const URL: string = `${this.mongo_connection_start}${mongo_db_user}:${mongo_db_password}@${mongo_host_name}:${mongo_port}/${mongo_db_name}${this.complemento_url}`;
+		const URL: string = `${this.mongo_connection_start}${mongo_db_user}:${mongo_db_password}@${mongo_host_name}/${this.complemento_url}`;
 		if (mongoose.connection.readyState === 1) {
 			return;
 		}
@@ -42,9 +42,10 @@ class Storage_Init {
 				keepAlive: true,
 				maxPoolSize: 15,
 				authSource: mongo_db_name,
-				connectTimeoutMS: 15000,
+				connectTimeoutMS: 30000,
 				socketTimeoutMS: 30000,
 				autoIndex: true,
+				dbName: mongo_db_name,
 			});
 			await this.model_factory.createModelsToSpecifiedConnection(
 				mongoose.connection,
