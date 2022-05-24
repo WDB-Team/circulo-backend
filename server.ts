@@ -34,7 +34,7 @@ app.use(errorsHandlers.logErrors);
 app.use(errorsHandlers.errorHandler);
 //--
 const port = process.env.PORT || 5000;
-app.listen(settings.API.port, () => {
+app.listen(port, () => {
 	console.log(
 		`La aplicacion esta escuchando en http://localhost:${port} ....!`,
 	);
