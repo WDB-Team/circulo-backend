@@ -12,6 +12,12 @@ import { Types } from "mongoose";
 require("../security/basic.js");
 const usersystem_controller: UserSystemController = new UserSystemController();
 const router: Router = express.Router();
+router.get(
+	"/inicio",
+	async function (request: Request, response: Response, next: NextFunction) {
+		response.send("hola llego...!");
+	},
+);
 /**
  * @description:
  */
