@@ -1,2 +1,3 @@
 # circulo-backend
-temporal
+
+Back-End para una institucion infantil(circulo infantil).

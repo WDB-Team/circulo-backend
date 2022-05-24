@@ -31,7 +31,7 @@ app.use("/api/boy", boy_router);
 app.use(errorsHandlers.logErrors);
 app.use(errorsHandlers.errorHandler);
 //--
-app.listen(settings.API.port, async () => {
+app.listen(settings.API.port, () => {
 	console.log(
 		`La aplicacion esta escuchando en http://localhost:${settings.API.port} ....!`,
 	);

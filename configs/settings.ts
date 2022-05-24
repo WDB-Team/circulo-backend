@@ -5,7 +5,7 @@ dotenv.config();
 const settings = {
 	dev: process.env.NODE_ENV !== "production",
 	API: {
-		port: process.env.API_PORT,
+		port: process.env.API_PORT || 8000,
 	},
 	MONGO_ATLAS_CIRCULO_SERVICE: {
 		dbUser: process.env.CIRCULO_USER || "",
