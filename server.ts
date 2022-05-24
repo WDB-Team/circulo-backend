@@ -2,6 +2,8 @@
 import express from "express";
 import passport from "passport";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 //--
 import auth_router from "./routes/auth_routes.js";
 import user_router from "./routes/users/user_routes.js";
@@ -31,8 +33,9 @@ app.use("/api/boy", boy_router);
 app.use(errorsHandlers.logErrors);
 app.use(errorsHandlers.errorHandler);
 //--
+const port = process.env.PORT || 5000;
 app.listen(settings.API.port, () => {
 	console.log(
-		`La aplicacion esta escuchando en http://localhost:${settings.API.port} ....!`,
+		`La aplicacion esta escuchando en http://localhost:${port} ....!`,
 	);
 });
