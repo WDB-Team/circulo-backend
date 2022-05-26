@@ -9,7 +9,6 @@ import auth_router from "./routes/auth_routes.js";
 import user_router from "./routes/users/user_routes.js";
 import boy_router from "./routes/boys/boy_routes.js";
 //--
-import settings from "./configs/settings.js";
 import Storage_Init from "./library/mongodbconnection.js";
 import errorsHandlers from "./utils/middlewares/errors_handlers.js";
 //--
@@ -33,7 +32,7 @@ app.use("/api/boy", boy_router);
 app.use(errorsHandlers.logErrors);
 app.use(errorsHandlers.errorHandler);
 //--
-const port = process.env.PORT || 5000;
+const port: string | number = process.env.PORT || 5000;
 app.listen(port, () => {
 	console.log(
 		`La aplicacion esta escuchando en http://localhost:${port} ....!`,

@@ -55,7 +55,7 @@ router.get(
 						config.JWT_SECRET.authJwtSecret,
 						{ expiresIn: "90d" },
 					);
-					responses.Success(request, response, token, 200);
+					responses.Success(request, response, [user._id, token], 200);
 				} catch (error: any) {
 					next(error);
 				}
@@ -97,7 +97,7 @@ router.post(
 					config.JWT_SECRET.authJwtSecret,
 					{ expiresIn: "90d" },
 				);
-				responses.Success(request, response, token, 201);
+				responses.Success(request, response, [transaction.user_id, token], 201);
 			}
 			if (transaction.error) {
 				next(transaction.error);
