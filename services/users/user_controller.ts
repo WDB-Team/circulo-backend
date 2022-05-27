@@ -50,11 +50,19 @@ class UserSystemController {
 			count_deleted: any;
 		};
 		try {
-			transaction = await this.user_system_storage.deleteUserSystemMongoDB(user_id);
-			if (transaction.successfully_transaction && transaction.count_deleted !== 0) {
+			transaction = await this.user_system_storage.deleteUserSystemMongoDB(
+				user_id,
+			);
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_deleted !== 0
+			) {
 				return 1;
 			}
-			if (transaction.successfully_transaction && transaction.count_deleted === 0) {
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_deleted === 0
+			) {
 				return 2;
 			}
 		} catch (err) {
@@ -70,7 +78,10 @@ class UserSystemController {
 	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
 	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
-	public async updateFullNameOfUser(user_id: string, new_fullname: string): Promise<any> {
+	public async updateFullNameOfUser(
+		user_id: string,
+		new_fullname: string,
+	): Promise<any> {
 		let transaction: {
 			successfully_transaction: boolean;
 			count_modificados: any;
@@ -81,7 +92,10 @@ class UserSystemController {
 				user_id,
 				new_fullname,
 			);
-			if (transaction.successfully_transaction && transaction.count_modificados !== 0) {
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados !== 0
+			) {
 				return 1;
 			}
 			if (
@@ -111,15 +125,24 @@ class UserSystemController {
 	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
 	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
-	public async updateEmailOfUser(user_id: string, new_email: string): Promise<any> {
+	public async updateEmailOfUser(
+		user_id: string,
+		new_email: string,
+	): Promise<any> {
 		let transaction: {
 			successfully_transaction: boolean;
 			count_modificados: any;
 			matched?: any;
 		};
 		try {
-			transaction = await this.user_system_storage.updateEmailOfUserMongoDB(user_id, new_email);
-			if (transaction.successfully_transaction && transaction.count_modificados !== 0) {
+			transaction = await this.user_system_storage.updateEmailOfUserMongoDB(
+				user_id,
+				new_email,
+			);
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados !== 0
+			) {
 				return 1;
 			}
 			if (
@@ -149,7 +172,10 @@ class UserSystemController {
 	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
 	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
-	public async updatePasswordOfUser(user_id: string, new_password: string): Promise<any> {
+	public async updatePasswordOfUser(
+		user_id: string,
+		new_password: string,
+	): Promise<any> {
 		let transaction: {
 			successfully_transaction: boolean;
 			count_modificados: any;
@@ -161,7 +187,10 @@ class UserSystemController {
 				user_id,
 				new_password,
 			);
-			if (transaction.successfully_transaction && transaction.count_modificados !== 0) {
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados !== 0
+			) {
 				return 1;
 			}
 			if (
@@ -201,11 +230,59 @@ class UserSystemController {
 			matched?: any;
 		};
 		try {
-			transaction = await this.user_system_storage.updateLittleDescriptionOfUserMongoDB(
+			transaction =
+				await this.user_system_storage.updateLittleDescriptionOfUserMongoDB(
+					user_id,
+					new_little_description,
+				);
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados !== 0
+			) {
+				return 1;
+			}
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados === 0 &&
+				transaction.matched !== 0
+			) {
+				return 2;
+			}
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados === 0 &&
+				transaction.matched === 0
+			) {
+				return 0;
+			}
+		} catch (err: any) {
+			return { error: err };
+		}
+	}
+	/**
+	 * @description: Este metodo controlador llamara al metodo user_system_storage.updateAddressOfUserMongoDB.
+	 * @param user_id: Es el usuario del sistema.
+	 * @param new_address: Es la nueva direccion del usuario.
+	 * @returns: Promise<any>.
+	 */
+	public async updateAddressOfUser(
+		user_id: string,
+		new_address: string,
+	): Promise<any> {
+		let transaction: {
+			successfully_transaction: boolean;
+			count_modificados: any;
+			matched?: any;
+		};
+		try {
+			transaction = await this.user_system_storage.updateAddressOfUserMongoDB(
 				user_id,
-				new_little_description,
+				new_address,
 			);
-			if (transaction.successfully_transaction && transaction.count_modificados !== 0) {
+			if (
+				transaction.successfully_transaction &&
+				transaction.count_modificados !== 0
+			) {
 				return 1;
 			}
 			if (
@@ -257,7 +334,9 @@ class UserSystemController {
 	public async searchUserByEmail(email_search: string): Promise<any> {
 		let document: Document;
 		try {
-			document = await this.user_system_storage.searchUserByEmailMongoDB(email_search);
+			document = await this.user_system_storage.searchUserByEmailMongoDB(
+				email_search,
+			);
 			if (document) {
 				return document;
 			}

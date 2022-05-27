@@ -23,7 +23,7 @@ class BoySchema {
 				full_name: { type: String, required: true },
 				edad: { type: Number, required: true },
 				sexo: { type: String, required: true },
-				residencia: { type: String, required: true }, //!revisar si va aqui o en los tutores.
+				alimentos_dañinos: { type: [String], required: true },
 				little_description: { type: String, required: true },
 			},
 			{

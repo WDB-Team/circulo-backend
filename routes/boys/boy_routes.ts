@@ -50,7 +50,8 @@ router.post(
 			!request.body.full_name ||
 			!request.body.edad ||
 			!request.body.sexo ||
-			!request.body.residencia ||
+			!request.body.alimentos_dañinos ||
+			request.body.alimentos_dañinos.length === 0 ||
 			!request.body.little_description
 		) {
 			responses.Errors(
@@ -93,6 +94,45 @@ router.delete(
 			}
 			if (transaction === 2) {
 				responses.Errors(request, response, "Niño no existente...!", 400);
+			}
+			if (transaction.error) {
+				next(transaction.error);
+			}
+		}
+	},
+);
+/**
+ * @description:
+ */
+router.patch(
+	"/addHarmfulFood",
+	passport.authenticate("jwt", { session: false }),
+	async function (request: Request, response: Response, next: NextFunction) {
+		if (!request.body.boy_id || !request.body.dangerous_food) {
+			responses.Errors(
+				request,
+				response,
+				"Envio de informacion invalida...!",
+				400,
+			);
+		} else {
+			const transaction: any = await boy_controller.addHarmfulFood(
+				request.body.boy_id,
+				request.body.dangerous_food,
+			);
+			if (transaction === 1) {
+				responses.Success(request, response, "Alimentos añadidos...!", 200);
+			}
+			if (transaction === 2) {
+				responses.Errors(request, response, "Alimentos ya existentes...!", 400);
+			}
+			if (transaction === 0) {
+				responses.Errors(
+					request,
+					response,
+					"No se pudo encontrar el niño especificado por el id...!",
+					400,
+				);
 			}
 			if (transaction.error) {
 				next(transaction.error);
@@ -267,50 +307,6 @@ router.patch(
 			}
 			if (transaction === 2) {
 				responses.Errors(request, response, "Sexo ya existente...!", 400);
-			}
-			if (transaction === 0) {
-				responses.Errors(
-					request,
-					response,
-					"No se pudo encontrar el niño especificado por el id...!",
-					400,
-				);
-			}
-			if (transaction.error) {
-				next(transaction.error);
-			}
-		}
-	},
-);
-/**
- * @description:
- */
-router.patch(
-	"/updateAddressOfBoy",
-	passport.authenticate("jwt", { session: false }),
-	async function (request: Request, response: Response, next: NextFunction) {
-		if (!request.body.boy_id || !request.body.new_address) {
-			responses.Errors(
-				request,
-				response,
-				"Envio de informacion invalida...!",
-				400,
-			);
-		} else {
-			const transaction: any = await boy_controller.updateAddressOfBoy(
-				request.body.boy_id,
-				request.body.new_address,
-			);
-			if (transaction === 1) {
-				responses.Success(
-					request,
-					response,
-					"Direccion del niño actualizada...!",
-					200,
-				);
-			}
-			if (transaction === 2) {
-				responses.Errors(request, response, "Direccion ya existente...!", 400);
 			}
 			if (transaction === 0) {
 				responses.Errors(

@@ -20,7 +20,7 @@ class BoyController {
 		full_name: string;
 		edad: number;
 		sexo: string;
-		residencia: string;
+		alimentos_dañinos: string[];
 		little_description: string;
 	}): Promise<any> {
 		let transaction: {
@@ -162,7 +162,10 @@ class BoyController {
 	 * @description: Este metodo controlador llamara al metodo boy_storage.updateAgeOfBoyMongoDB.
 	 * @param boy_id: Es el niño del sistema.
 	 * @param new_age: Es la nueva edad del niño.
-	 * @returns: Promise<any>.
+	 * @returns: Promise<any>. Caso:1- en caso de una actualizacion satisfactoria retorna: 1.
+	 *                         Caso:2- en caso de no actualizacion por ya existencia del dato retorna: 2.
+	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
+	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
 	public async updateAgeOfBoy(boy_id: string, new_age: number): Promise<any> {
 		let transaction: {
@@ -203,7 +206,10 @@ class BoyController {
 	 * @description: Este metodo controlador llamara al metodo boy_storage.updateSexOfBoyMongoDB.
 	 * @param boy_id: Es el niño del sistema.
 	 * @param new_sex: Es el nuevo sexo del niño.
-	 * @returns: Promise<any>.
+	 * @returns: Promise<any>. Caso:1- en caso de una actualizacion satisfactoria retorna: 1.
+	 *                         Caso:2- en caso de no actualizacion por ya existencia del dato retorna: 2.
+	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
+	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
 	public async updateSexOfBoy(boy_id: string, new_sex: string): Promise<any> {
 		let transaction: {
@@ -241,24 +247,27 @@ class BoyController {
 		}
 	}
 	/**
-	 * @description: Este metodo controlador llamara al metodo boy_storage.updateAddressOfBoyMongoDB.
-	 * @param boy_id: Es el niño del sistema.
-	 * @param new_address: Es la nueva direccion del niño.
-	 * @returns: Promise<any>.
+	 * @description: Este metodo controlador llamara al metodo boy_storage.addHarmfulFoodMongoDB.
+	 * @param boy_id: Es el niño del systema.
+	 * @param dangerous_food: Son los nuevos alimentos dañinos del niño.
+	 * @returns: Promise<any>. Caso:1- en caso de una actualizacion satisfactoria retorna: 1.
+	 *                         Caso:2- en caso de no actualizacion por ya existencia del dato retorna: 2.
+	 *                         Caso:3- en caso de que el user_id no coincida con ninguno en la mongoDB retorna 0.
+	 *                         Caso:4- en caso de un error retorna un objeto con el error.
 	 */
-	public async updateAddressOfBoy(
+	public async addHarmfulFood(
 		boy_id: string,
-		new_address: string,
+		dangerous_food: string[],
 	): Promise<any> {
 		let transaction: {
 			successfully_transaction: boolean;
 			count_modificados: any;
-			matched?: any;
+			matched: any;
 		};
 		try {
-			transaction = await this.boy_storage.updateAddressOfBoyMongoDB(
+			transaction = await this.boy_storage.addHarmfulFoodMongoDB(
 				boy_id,
-				new_address,
+				dangerous_food,
 			);
 			if (
 				transaction.successfully_transaction &&

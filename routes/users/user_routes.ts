@@ -317,6 +317,50 @@ router.patch(
 /**
  * @description:
  */
+router.patch(
+	"/updateAddressOfUser",
+	passport.authenticate("jwt", { session: false }),
+	async function (request: Request, response: Response, next: NextFunction) {
+		if (!request.body.user_id || !request.body.new_address) {
+			responses.Errors(
+				request,
+				response,
+				"Envio de informacion invalida...!",
+				400,
+			);
+		} else {
+			const transaction: any = await usersystem_controller.updateAddressOfUser(
+				request.body.user_id,
+				request.body.new_address,
+			);
+			if (transaction === 1) {
+				responses.Success(
+					request,
+					response,
+					"Direccion del usuario actualizada...!",
+					200,
+				);
+			}
+			if (transaction === 2) {
+				responses.Errors(request, response, "Direccion ya existente...!", 400);
+			}
+			if (transaction === 0) {
+				responses.Errors(
+					request,
+					response,
+					"No se pudo encontrar el usuario especificado por el id...!",
+					400,
+				);
+			}
+			if (transaction.error) {
+				next(transaction.error);
+			}
+		}
+	},
+);
+/**
+ * @description:
+ */
 router.delete(
 	"/deleteUserSystem",
 	passport.authenticate("jwt", { session: false }),

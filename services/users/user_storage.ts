@@ -215,6 +215,41 @@ class UserSystemStorage {
 		});
 	}
 	/**
+	 * @description: Este metodo actualizara la direccion del usuario.
+	 * @param user_id: Es el usuario del systema.
+	 * @param new_address: Es la nueva direccion del usuario del sistema.
+	 * @returns: Promise<any>.
+	 */
+	public async updateAddressOfUserMongoDB(
+		user_id: string,
+		new_address: string,
+	): Promise<any> {
+		const connection: Connection = await this.storage.getConnection();
+		return new Promise<any>(function (resolve: Function, reject: Function) {
+			connection.db
+				.collection("users")
+				.updateOne(
+					{ _id: Types.ObjectId.createFromHexString(user_id) },
+					{ $set: { residencia: new_address } },
+					function (error: any, result: any) {
+						if (error) {
+							reject({
+								reason:
+									"Ha ocurrido un error a la hora de actualizar la direccion del usuario en la Mongo_DB: " +
+									error,
+							});
+						} else {
+							resolve({
+								successfully_transaction: true,
+								count_modificados: result.modifiedCount,
+								matched: result.matchedCount,
+							});
+						}
+					},
+				);
+		});
+	}
+	/**
 	 * @description: Este metodo buscara el usuario por el id especificado.
 	 * @param user_id: Es el usuario del systema.
 	 * @returns: Promise<any>.

@@ -75,6 +75,41 @@ class BoyStorage {
 		});
 	}
 	/**
+	 * @description: Este metodo añadira los nuevos alimentos dañinos del niño.
+	 * @param boy_id: Es el niño del systema.
+	 * @param dangerous_food: Son los nuevos alimentos dañinos del niño.
+	 * @returns: Promise<any>
+	 */
+	public async addHarmfulFoodMongoDB(
+		boy_id: string,
+		dangerous_food: string[],
+	): Promise<any> {
+		const connection: Connection = await this.storage.getConnection();
+		return new Promise<any>(function (resolve: Function, reject: Function) {
+			connection.db
+				.collection("boys")
+				.updateOne(
+					{ _id: Types.ObjectId.createFromHexString(boy_id) },
+					{ $addToSet: { alimentos_dañinos: { $each: dangerous_food } } },
+					function (error: any, result: any) {
+						if (error) {
+							reject({
+								reason:
+									"Ha ocurrido un error a la hora de añadir los nuevos alimentos dañinos del niño en la Mongo_DB: " +
+									error,
+							});
+						} else {
+							resolve({
+								successfully_transaction: true,
+								count_modificados: result.modifiedCount,
+								matched: result.matchedCount,
+							});
+						}
+					},
+				);
+		});
+	}
+	/**
 	 * @description: Este metodo actualizara el nombre del niño.
 	 * @param boy_id: Es el niño del sistema.
 	 * @param new_fullname: Es el nuevo nombre del niño del systema.
@@ -211,41 +246,6 @@ class BoyStorage {
 							reject({
 								reason:
 									"Ha ocurrido un error a la hora de actualizar el sexo del niño en la Mongo_DB: " +
-									error,
-							});
-						} else {
-							resolve({
-								successfully_transaction: true,
-								count_modificados: result.modifiedCount,
-								matched: result.matchedCount,
-							});
-						}
-					},
-				);
-		});
-	}
-	/**
-	 * @description: Este metodo actualizara la direccion del niño.
-	 * @param boy_id: Es el niño del systema.
-	 * @param new_address: Es la nueva direccion del niño del sistema.
-	 * @returns: Promise<any>.
-	 */
-	public async updateAddressOfBoyMongoDB(
-		boy_id: string,
-		new_address: string,
-	): Promise<any> {
-		const connection: Connection = await this.storage.getConnection();
-		return new Promise<any>(function (resolve: Function, reject: Function) {
-			connection.db
-				.collection("boys")
-				.updateOne(
-					{ _id: Types.ObjectId.createFromHexString(boy_id) },
-					{ $set: { residencia: new_address } },
-					function (error: any, result: any) {
-						if (error) {
-							reject({
-								reason:
-									"Ha ocurrido un error a la hora de actualizar la direccion del niño en la Mongo_DB: " +
 									error,
 							});
 						} else {
