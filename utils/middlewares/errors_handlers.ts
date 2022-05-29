@@ -34,7 +34,7 @@ function errorHandler(
 	responses.Errors(
 		request,
 		response,
-		error.reason + " (error interno)",
+		error.reason || error + " (error interno)",
 		error_status,
 	);
 }
