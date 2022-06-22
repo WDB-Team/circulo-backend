@@ -18,18 +18,10 @@ class Storage_Init {
 	 * @returns: Promise<void> .
 	 */
 	public async circuloServiceConnection(): Promise<void> {
-		const mongo_host_name: string = encodeURIComponent(
-			config.MONGO_ATLAS_CIRCULO_SERVICE.dbHost,
-		);
-		const mongo_port: string = encodeURIComponent(
-			config.MONGO_ATLAS_CIRCULO_SERVICE.dbPort,
-		);
-		const mongo_db_name: string = encodeURIComponent(
-			config.MONGO_ATLAS_CIRCULO_SERVICE.dbName,
-		);
-		const mongo_db_user: string = encodeURIComponent(
-			config.MONGO_ATLAS_CIRCULO_SERVICE.dbUser,
-		);
+		const mongo_host_name: string = encodeURIComponent(config.MONGO_ATLAS_CIRCULO_SERVICE.dbHost);
+		const mongo_port: string = encodeURIComponent(config.MONGO_ATLAS_CIRCULO_SERVICE.dbPort);
+		const mongo_db_name: string = encodeURIComponent(config.MONGO_ATLAS_CIRCULO_SERVICE.dbName);
+		const mongo_db_user: string = encodeURIComponent(config.MONGO_ATLAS_CIRCULO_SERVICE.dbUser);
 		const mongo_db_password: string = encodeURIComponent(
 			config.MONGO_ATLAS_CIRCULO_SERVICE.dbPassword,
 		);
@@ -46,13 +38,8 @@ class Storage_Init {
 				autoIndex: true,
 				dbName: mongo_db_name,
 			});
-			await this.model_factory.createModelsToSpecifiedConnection(
-				mongoose.connection,
-			);
-			console.log(
-				`The ${mongo_db_name} connection state is:`,
-				mongoose.connection.readyState,
-			);
+			await this.model_factory.createModelsToSpecifiedConnection(mongoose.connection);
+			console.log(`The ${mongo_db_name} connection state is:`, mongoose.connection.readyState);
 		} catch (error: any) {
 			console.error(
 				`Ha ocurrido un error:${error.message} a la hora de establecer la conexcion por defecto con la base de datos de Mongo_DB...!`,

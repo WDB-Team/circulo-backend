@@ -19,6 +19,8 @@ class UserSchema {
 				full_name: { type: String, required: true },
 				email: { type: String, required: true },
 				password: { type: String, required: true },
+				residencia: { type: String, default: "None", required: false },
+				little_description: { type: String, default: "None", required: false },
 			},
 			{
 				timestamps: {

@@ -29,10 +29,11 @@ router.get("/sign-in", async function (request: Request, response: Response, nex
 				full_name: string;
 				email: string;
 				password: string | any;
-				little_description: string;
+				little_description?: string;
 			},
 		) {
 			try {
+				console.log(`el usuario es: `, user);
 				if (error || !user) {
 					responses.Errors(request, response, boom.unauthorized().message, 400);
 				}
@@ -43,7 +44,7 @@ router.get("/sign-in", async function (request: Request, response: Response, nex
 						full_name: user.full_name,
 					},
 					config.JWT_SECRET.authJwtSecret,
-					{ expiresIn: "1000d" },
+					{ expiresIn: "90 days" },
 				);
 				responses.Success(request, response, [user._id, token], 200);
 			} catch (error: any) {
@@ -72,7 +73,7 @@ router.post("/sign-up", async function (request: Request, response: Response, ne
 					full_name: request.body.full_name,
 				},
 				config.JWT_SECRET.authJwtSecret,
-				{ expiresIn: "1000d" },
+				{ expiresIn: "90 days" },
 			);
 			responses.Success(request, response, [transaction.user_id, token], 201);
 		}

@@ -14,9 +14,9 @@ passport.use(
 		},
 		async function (
 			jwt_payload: {
-				user_id: any;
+				user_id: string;
 				email: string;
-				full_name?: string;
+				full_name: string;
 			},
 			callback: Function,
 		) {

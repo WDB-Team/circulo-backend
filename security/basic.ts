@@ -15,7 +15,7 @@ passport.use(
 				full_name: string;
 				email: string;
 				password: string | any;
-				little_description: string;
+				little_description?: string;
 			} = await user_system_controller.searchUserByEmail(username);
 			if (!user) {
 				return callback(boom.unauthorized().message, false);
