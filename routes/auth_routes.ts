@@ -43,7 +43,7 @@ router.get("/sign-in", async function (request: Request, response: Response, nex
 						full_name: user.full_name,
 					},
 					config.JWT_SECRET.authJwtSecret,
-					{ expiresIn: "90d" },
+					{ expiresIn: "1000d" },
 				);
 				responses.Success(request, response, [user._id, token], 200);
 			} catch (error: any) {
@@ -72,7 +72,7 @@ router.post("/sign-up", async function (request: Request, response: Response, ne
 					full_name: request.body.full_name,
 				},
 				config.JWT_SECRET.authJwtSecret,
-				{ expiresIn: "90d" },
+				{ expiresIn: "1000d" },
 			);
 			responses.Success(request, response, [transaction.user_id, token], 201);
 		}
